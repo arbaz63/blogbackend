@@ -6,18 +6,33 @@ const auth = require('../auth')
 //get posts
 router.get("/", async (req, res)=>{
     try {
-        const post = await Posts.find({draft:false}).populate("author","_id name")
-        res.json(post)
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * pageSize;
+        const post = await Posts.find({draft:false}).populate("author","_id name").sort({_id:-1}).skip(skip).limit(pageSize)
+        res.status(200).json(post)
     } catch (err) {
         res.status(400).json(err)
     }
 })
 
-//get all posts of current logged in user
-router.get("/userposts",auth, async (req, res)=>{
+//get single post
+router.get("/:id", async (req, res)=>{
     try {
+        const post = await Posts.findById(req.params.id).populate("author","_id name")
+        res.json(post)
+    } catch (err) {
+        res.status(400).json(err)
+    }
+})
+//get all posts of current logged in user
+router.post("/userposts",auth, async (req, res)=>{
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * pageSize;
         const id= req.user.uid
-        const post = await Posts.find({author:id})
+        const post = await Posts.find({author:id}).sort({_id:-1}).skip(skip).limit(pageSize)
         res.status(200).json(post)
     } catch (err) {
         res.status(400).json(err)

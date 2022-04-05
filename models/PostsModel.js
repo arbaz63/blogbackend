@@ -18,6 +18,7 @@ var Post = new Schema({
     },
     draft:{//is active
         type: Boolean,
+        default:true
     },
     date: {type: Date, default: Date.now()}  
 

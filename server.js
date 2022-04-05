@@ -1,10 +1,12 @@
 const express = require('express')
+require('dotenv').config()
 const mongoose = require('mongoose');
 const User = require('./routes/userRoute')
 const Post = require('./routes/postRoute')
+const Comment = require('./routes/commentRoute')
 const cors = require('cors')
 //Set up mongoose connection
-var mongoDB = 'mongodb+srv://MuhammadArbaz:nonishaa1@cluster0.eff4m.mongodb.net/blog?retryWrites=true&w=majority';
+var mongoDB = process.env.MONGO_DB_URL;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -17,6 +19,7 @@ app.use(cors())
 app.use(express.json());
 app.use('/users',User)
 app.use('/posts',Post)
+app.use('/comments',Comment)
 
 
 app.listen(port, () => {

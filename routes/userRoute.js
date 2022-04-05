@@ -2,6 +2,7 @@
 var express = require('express');
 const Users = require('../models/UsersModel')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 const bcrypt = require('bcryptjs/dist/bcrypt');
 var router = express.Router();
 //singup
@@ -21,7 +22,7 @@ router.post("/signup", async (req, res) => {
       });
       res.status(200).json({status:"Registered successfully"});
     } catch (err) {
-      console.log(err);
+      res.status(400).send(err)
     }
   });
   
@@ -32,7 +33,7 @@ router.post("/login", async (req, res) => {
       if (user && (await bcrypt.compare(req.body.password, user.password))) {
         // Create token
         const token = jwt.sign(
-          { uid: user._id, },'secret'
+          { uid: user._id, uname:user.name },process.env.SECRET_KEY
         );
         user.token = token;
         res.status(200).json({_id:user._id, token:user.token});
