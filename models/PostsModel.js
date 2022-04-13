@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var Post = new Schema({
+const Post = new Schema({
     title: {
         type: String,
         required: true,
@@ -14,14 +14,16 @@ var Post = new Schema({
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users'
+        ref: 'Users',
+        required: true
     },
-    draft:{//is active
+    draft: { //is active
         type: Boolean,
-        default:true
+        default: true
     },
-    date: {type: Date, default: Date.now()}  
 
+}, {
+    timestamps: true
 });
 
 // Compile model from schema

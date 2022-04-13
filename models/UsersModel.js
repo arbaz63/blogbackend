@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var User = new Schema({
+const User = new Schema({
   name: {
-      type: String,
-      required: true,
-      min: 3
+    type: String,
+    required: true,
+    min: 3
   },
-  email: { 
+  email: {
     type: String,
     required: true,
     match: /.+\@.+\..+/,
@@ -17,11 +17,8 @@ var User = new Schema({
     type: String,
     required: true,
     min: 3
-},
-  token: {
-    type: String
-  }
+  },
 });
 
 // Compile model from schema
-module.exports  = mongoose.model('Users', User );
+module.exports = mongoose.model('Users', User);

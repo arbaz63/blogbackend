@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var Comment = new Schema({
+const Comment = new Schema({
     body: {
         type: String,
         required: true,
         min: 3
     },
     author: {
-        type: String,
-        ref: 'Users'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true
     },
     post: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
 });
 
